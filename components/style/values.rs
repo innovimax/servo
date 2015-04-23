@@ -12,7 +12,7 @@ macro_rules! define_css_keyword_enum {
     };
     ($name: ident: $( $css: expr => $variant: ident ),+) => {
         #[allow(non_camel_case_types)]
-        #[derive(Clone, Eq, PartialEq, FromPrimitive, Copy, Hash, RustcEncodable)]
+        #[derive(Clone, Eq, PartialEq, FromPrimitive, Copy, Hash, RustcEncodable, Debug)]
         pub enum $name {
             $( $variant ),+
         }
@@ -26,17 +26,9 @@ macro_rules! define_css_keyword_enum {
             }
         }
 
-        impl ::std::fmt::Debug for $name {
-            #[inline]
-            fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-                use cssparser::ToCss;
-                self.fmt_to_css(f)
-            }
-        }
-
         impl ::cssparser::ToCss for $name {
-            fn to_css<W>(&self, dest: &mut W) -> ::text_writer::Result
-            where W: ::text_writer::TextWriter {
+            fn to_css<W>(&self, dest: &mut W) -> ::std::fmt::Result
+            where W: ::std::fmt::Write {
                 match self {
                     $( &$name::$variant => dest.write_str($css) ),+
                 }
@@ -85,13 +77,13 @@ macro_rules! define_numbered_css_keyword_enum {
 }
 
 
-pub type CSSFloat = f64;
+pub type CSSFloat = f32;
 
 
 pub mod specified {
     use std::ascii::AsciiExt;
     use std::cmp;
-    use std::f64::consts::PI;
+    use std::f32::consts::PI;
     use std::fmt;
     use std::fmt::{Formatter, Debug};
     use std::num::{NumCast, ToPrimitive};
@@ -100,11 +92,10 @@ pub mod specified {
     use cssparser::{self, Token, Parser, ToCss, CssStringWriter};
     use geom::size::Size2D;
     use parser::ParserContext;
-    use text_writer::{self, TextWriter};
     use util::geometry::Au;
     use super::CSSFloat;
 
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     pub struct CSSColor {
         pub parsed: cssparser::Color,
         pub authored: Option<String>,
@@ -124,12 +115,8 @@ pub mod specified {
         }
     }
 
-    impl fmt::Debug for CSSColor {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for CSSColor {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self.authored {
                 Some(ref s) => dest.write_str(s),
                 None => self.parsed.to_css(dest),
@@ -137,17 +124,14 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     pub struct CSSRGBA {
         pub parsed: cssparser::RGBA,
         pub authored: Option<String>,
     }
-    impl fmt::Debug for CSSRGBA {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
 
     impl ToCss for CSSRGBA {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self.authored {
                 Some(ref s) => dest.write_str(s),
                 None => self.parsed.to_css(dest),
@@ -155,19 +139,15 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub enum FontRelativeLength {
         Em(CSSFloat),
         Ex(CSSFloat),
         Rem(CSSFloat)
     }
 
-    impl fmt::Debug for FontRelativeLength {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for FontRelativeLength {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &FontRelativeLength::Em(length) => write!(dest, "{}em", length),
                 &FontRelativeLength::Ex(length) => write!(dest, "{}ex", length),
@@ -193,7 +173,7 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub enum ViewportPercentageLength {
         Vw(CSSFloat),
         Vh(CSSFloat),
@@ -201,12 +181,8 @@ pub mod specified {
         Vmax(CSSFloat)
     }
 
-    impl fmt::Debug for ViewportPercentageLength {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for ViewportPercentageLength {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &ViewportPercentageLength::Vw(length) => write!(dest, "{}vw", length),
                 &ViewportPercentageLength::Vh(length) => write!(dest, "{}vh", length),
@@ -238,7 +214,7 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub struct CharacterWidth(pub i32);
 
     impl CharacterWidth {
@@ -253,7 +229,7 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub enum Length {
         Absolute(Au),  // application units
         FontRelative(FontRelativeLength),
@@ -266,12 +242,8 @@ pub mod specified {
         ServoCharacterWidth(CharacterWidth),
     }
 
-    impl fmt::Debug for Length {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for Length {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &Length::Absolute(length) => write!(dest, "{}px", length.to_subpx()),
                 &Length::FontRelative(length) => length.to_css(dest),
@@ -288,7 +260,7 @@ pub mod specified {
         #[inline]
         fn mul(self, scalar: CSSFloat) -> Length {
             match self {
-                Length::Absolute(Au(v)) => Length::Absolute(Au(((v as f64) * scalar) as i32)),
+                Length::Absolute(Au(v)) => Length::Absolute(Au(((v as f32) * scalar) as i32)),
                 Length::FontRelative(v) => Length::FontRelative(v * scalar),
                 Length::ViewportPercentage(v) => Length::ViewportPercentage(v * scalar),
                 Length::ServoCharacterWidth(_) => panic!("Can't multiply ServoCharacterWidth!"),
@@ -374,18 +346,14 @@ pub mod specified {
     }
 
 
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub enum LengthOrPercentage {
         Length(Length),
         Percentage(CSSFloat),  // [0 .. 100%] maps to [0.0 .. 1.0]
     }
 
-    impl fmt::Debug for LengthOrPercentage {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for LengthOrPercentage {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &LengthOrPercentage::Length(length) => length.to_css(dest),
                 &LengthOrPercentage::Percentage(percentage)
@@ -421,19 +389,15 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub enum LengthOrPercentageOrAuto {
         Length(Length),
         Percentage(CSSFloat),  // [0 .. 100%] maps to [0.0 .. 1.0]
         Auto,
     }
 
-    impl fmt::Debug for LengthOrPercentageOrAuto {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for LengthOrPercentageOrAuto {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &LengthOrPercentageOrAuto::Length(length) => length.to_css(dest),
                 &LengthOrPercentageOrAuto::Percentage(percentage)
@@ -472,19 +436,15 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub enum LengthOrPercentageOrNone {
         Length(Length),
         Percentage(CSSFloat),  // [0 .. 100%] maps to [0.0 .. 1.0]
         None,
     }
 
-    impl fmt::Debug for LengthOrPercentageOrNone {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for LengthOrPercentageOrNone {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &LengthOrPercentageOrNone::Length(length) => length.to_css(dest),
                 &LengthOrPercentageOrNone::Percentage(percentage)
@@ -650,22 +610,18 @@ pub mod specified {
         }
     }
 
-    #[derive(Clone, PartialEq, PartialOrd, Copy)]
+    #[derive(Clone, PartialEq, PartialOrd, Copy, Debug)]
     pub struct Angle(pub CSSFloat);
 
-    impl fmt::Debug for Angle {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for Angle {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             let Angle(value) = *self;
             write!(dest, "{}rad", value)
         }
     }
 
     impl Angle {
-        pub fn radians(self) -> f64 {
+        pub fn radians(self) -> f32 {
             let Angle(radians) = self;
             radians
         }
@@ -695,18 +651,14 @@ pub mod specified {
     }
 
     /// Specified values for an image according to CSS-IMAGES.
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     pub enum Image {
         Url(Url),
         LinearGradient(LinearGradient),
     }
 
-    impl fmt::Debug for Image {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for Image {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &Image::Url(ref url) => {
                     try!(dest.write_str("url(\""));
@@ -740,7 +692,7 @@ pub mod specified {
     }
 
     /// Specified values for a CSS linear gradient.
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     pub struct LinearGradient {
         /// The angle or corner of the gradient.
         pub angle_or_corner: AngleOrCorner,
@@ -749,42 +701,34 @@ pub mod specified {
         pub stops: Vec<ColorStop>,
     }
 
-    impl fmt::Debug for LinearGradient {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for LinearGradient {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             try!(dest.write_str("linear-gradient("));
             try!(self.angle_or_corner.to_css(dest));
             for stop in self.stops.iter() {
                 try!(dest.write_str(", "));
                 try!(stop.to_css(dest));
             }
-            try!(dest.write_char(')'));
+            try!(dest.write_str(")"));
             Ok(())
         }
     }
 
     /// Specified values for an angle or a corner in a linear gradient.
-    #[derive(Clone, PartialEq, Copy)]
+    #[derive(Clone, PartialEq, Copy, Debug)]
     pub enum AngleOrCorner {
         Angle(Angle),
         Corner(HorizontalDirection, VerticalDirection),
     }
 
-    impl fmt::Debug for AngleOrCorner {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for AngleOrCorner {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             match self {
                 &AngleOrCorner::Angle(angle) => angle.to_css(dest),
                 &AngleOrCorner::Corner(horizontal, vertical) => {
                     try!(dest.write_str("to "));
                     try!(horizontal.to_css(dest));
-                    try!(dest.write_char(' '));
+                    try!(dest.write_str(" "));
                     try!(vertical.to_css(dest));
                     Ok(())
                 }
@@ -793,7 +737,7 @@ pub mod specified {
     }
 
     /// Specified values for one color stop in a linear gradient.
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     pub struct ColorStop {
         /// The color of this stop.
         pub color: CSSColor,
@@ -803,15 +747,11 @@ pub mod specified {
         pub position: Option<LengthOrPercentage>,
     }
 
-    impl fmt::Debug for ColorStop {
-        #[inline] fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { self.fmt_to_css(f) }
-    }
-
     impl ToCss for ColorStop {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             try!(self.color.to_css(dest));
             if let Some(position) = self.position {
-                try!(dest.write_char(' '));
+                try!(dest.write_str(" "));
                 try!(position.to_css(dest));
             }
             Ok(())
@@ -909,7 +849,7 @@ pub mod specified {
 
     impl Time {
         /// Returns the time in fractional seconds.
-        pub fn seconds(self) -> f64 {
+        pub fn seconds(self) -> f32 {
             let Time(seconds) = self;
             seconds
         }
@@ -945,7 +885,7 @@ pub mod specified {
     }
 
     impl ToCss for Time {
-        fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+        fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
             dest.write_str(format!("{}ms", self.0).as_slice())
         }
     }
