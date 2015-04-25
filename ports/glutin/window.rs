@@ -264,8 +264,7 @@ impl Window {
 
     #[cfg(target_os="linux")]
     fn handle_next_event(&self) -> bool {
-        use std::old_io::timer::sleep;
-        use std::time::duration::Duration;
+        use std::thread::sleep_ms;
 
         // TODO(gw): This is an awful hack to work around the
         // broken way we currently call X11 from multiple threads.
@@ -289,7 +288,7 @@ impl Window {
                 self.handle_window_event(event)
             }
             None => {
-                sleep(Duration::milliseconds(16));
+                sleep_ms(16);
                 false
             }
         }
