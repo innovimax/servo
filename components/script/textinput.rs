@@ -14,7 +14,6 @@ use util::str::DOMString;
 use std::borrow::ToOwned;
 use std::cmp::{min, max};
 use std::default::Default;
-use std::num::SignedInt;
 use std::sync::mpsc::channel;
 
 #[derive(Copy, Clone, PartialEq)]

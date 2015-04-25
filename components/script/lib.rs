@@ -39,6 +39,7 @@ extern crate js;
 extern crate libc;
 extern crate msg;
 extern crate net_traits;
+extern crate num;
 extern crate png;
 extern crate rustc_serialize;
 extern crate time;

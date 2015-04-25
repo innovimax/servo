@@ -85,11 +85,11 @@ use js::rust::{Runtime, RtUtils};
 use url::Url;
 
 use libc;
+use num::ToPrimitive;
 use std::any::Any;
 use std::borrow::ToOwned;
 use std::cell::{Cell, RefCell};
 use std::collections::HashSet;
-use std::num::ToPrimitive;
 use std::option::Option;
 use std::ptr;
 use std::rc::Rc;

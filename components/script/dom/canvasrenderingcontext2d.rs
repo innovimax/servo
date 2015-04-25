@@ -36,9 +36,9 @@ use net_traits::image::base::Image;
 use net_traits::image_cache_task::ImageCacheChan;
 use png::PixelsByColorType;
 
+use num::{Float, ToPrimitive};
 use std::borrow::ToOwned;
 use std::cell::RefCell;
-use std::num::{Float, ToPrimitive};
 use std::sync::{Arc};
 use std::sync::mpsc::{channel, Sender};
 
