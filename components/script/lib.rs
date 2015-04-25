@@ -70,4 +70,5 @@ pub mod script_task;
 mod timers;
 pub mod textinput;
 mod devtools;
+mod ugly_horribly_inefficient_timers;
 mod webdriver_handlers;
