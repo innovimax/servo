@@ -6,8 +6,10 @@ use std::cmp::{max, min};
 use std::fmt;
 use std::iter;
 use std::marker::PhantomData;
-use std::num::{self, Int};
+use std::num;
 use std::ops;
+
+pub trait Int {}
 
 /// An index type to be used by a `Range`
 pub trait RangeIndex: Int + fmt::Debug {

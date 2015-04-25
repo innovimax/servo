@@ -30,6 +30,7 @@ extern crate geom;
 extern crate getopts;
 extern crate layers;
 extern crate libc;
+extern crate num;
 extern crate num_cpus;
 extern crate rand;
 extern crate rustc_serialize;

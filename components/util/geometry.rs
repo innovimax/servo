@@ -10,7 +10,6 @@ use geom::num::Zero;
 
 use std::default::Default;
 use std::i32;
-use std::num::{Float, NumCast, ToPrimitive};
 use std::fmt;
 use std::ops::{Add, Sub, Neg, Mul, Div, Rem};
 
@@ -188,40 +187,6 @@ impl Neg for Au {
     }
 }
 
-
-impl NumCast for Au {
-    #[inline]
-    fn from<T:ToPrimitive>(n: T) -> Option<Au> {
-        Some(Au(n.to_i32().unwrap()))
-    }
-}
-
-impl ToPrimitive for Au {
-    #[inline]
-    fn to_i64(&self) -> Option<i64> {
-        let Au(s) = *self;
-        Some(s as i64)
-    }
-
-    #[inline]
-    fn to_u64(&self) -> Option<u64> {
-        let Au(s) = *self;
-        Some(s as u64)
-    }
-
-    #[inline]
-    fn to_f32(&self) -> Option<f32> {
-        let Au(s) = *self;
-        s.to_f32()
-    }
-
-    #[inline]
-    fn to_f64(&self) -> Option<f64> {
-        let Au(s) = *self;
-        s.to_f64()
-    }
-}
-
 impl Au {
     /// FIXME(pcwalton): Workaround for lack of cross crate inlining of newtype structs!
     #[inline]
@@ -237,12 +202,12 @@ impl Au {
 
     #[inline]
     pub fn from_px(px: isize) -> Au {
-        NumCast::from(px * 60).unwrap()
+        Au((px * 60) as i32)
     }
 
     #[inline]
     pub fn from_page_px(px: Length<PagePx, f32>) -> Au {
-        NumCast::from(px.get() * 60f32).unwrap()
+        Au((px.get() * 60f32) as i32)
     }
 
     /// Rounds this app unit down to the previous (left or top) pixel and returns it.
@@ -330,7 +295,7 @@ pub fn from_frac_px(px: f64) -> Au {
 }
 
 pub fn from_px(px: isize) -> Au {
-    NumCast::from(px * 60).unwrap()
+    Au::from_px(px)
 }
 
 pub fn to_px(au: Au) -> isize {

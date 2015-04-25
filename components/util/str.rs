@@ -11,7 +11,6 @@ use std::ascii::AsciiExt;
 use std::borrow::ToOwned;
 use std::ffi::CStr;
 use std::iter::Filter;
-use std::num::{Int, ToPrimitive};
 use std::ops::Deref;
 use std::str::{from_utf8, FromStr, Split};
 
