@@ -79,7 +79,7 @@ use string_cache::{Atom, Namespace, QualName};
 use url::UrlParser;
 
 use std::ascii::AsciiExt;
-use std::borrow::{IntoCow, ToOwned};
+use std::borrow::{Cow, ToOwned};
 use std::cell::{Ref, RefMut};
 use std::default::Default;
 use std::io::Write;
@@ -1011,9 +1011,9 @@ impl<'a> ElementMethods for JSRef<'a, Element> {
     fn TagName(self) -> DOMString {
         let qualified_name = match self.prefix {
             Some(ref prefix) => {
-                (format!("{}:{}", &**prefix, &*self.local_name)).into_cow()
+                Cow::Owned(format!("{}:{}", &**prefix, &*self.local_name))
             },
-            None => self.local_name.into_cow()
+            None => Cow::Borrowed(&*self.local_name)
         };
         if self.html_element_in_html_document() {
             qualified_name.to_ascii_uppercase()
