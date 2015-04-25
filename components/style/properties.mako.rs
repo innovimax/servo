@@ -1596,7 +1596,7 @@ pub mod longhands {
         }
         pub mod computed_value {
             use std::fmt;
-            #[derive(PartialEq, Eq, Copy, Clone, Hash, FromPrimitive)]
+            #[derive(PartialEq, Eq, Copy, Clone, Hash)]
             pub enum T {
                 % for weight in range(100, 901, 100):
                     Weight${weight} = ${weight},

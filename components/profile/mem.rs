@@ -510,7 +510,7 @@ mod system_reporter {
         let mut f = option_try!(File::open("/proc/self/statm").ok());
         let mut contents = String::new();
         option_try!(f.read_to_string(&mut contents).ok());
-        let s = option_try!(contents.words().nth(field));
+        let s = option_try!(contents.split_whitespace().nth(field));
         let npages = option_try!(s.parse::<usize>().ok());
         Some(npages * ::std::env::page_size())
     }

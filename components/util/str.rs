@@ -7,6 +7,7 @@ use geometry::Au;
 use cssparser::RGBA;
 
 use libc::c_char;
+use num_lib::ToPrimitive;
 use std::ascii::AsciiExt;
 use std::borrow::ToOwned;
 use std::ffi::CStr;

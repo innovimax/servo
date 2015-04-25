@@ -23,7 +23,6 @@ use cssparser::{RGBA, Color};
 
 use std::cmp::Ordering;
 use std::iter::repeat;
-use std::num::FromPrimitive;
 use util::bezier::Bezier;
 use util::geometry::Au;
 
@@ -571,14 +570,33 @@ impl Interpolate for LineHeight {
     }
 }
 
+/// http://dev.w3.org/csswg/css-transitions/#animtype-font-weight
 impl Interpolate for FontWeight {
     #[inline]
     fn interpolate(&self, other: &FontWeight, time: f32)
                    -> Option<FontWeight> {
-        let a = (*self as isize) as f32;
-        let b = (*other as isize) as f32;
-        let weight: Option<FontWeight> = FromPrimitive::from_isize((a + (b - a) * time).round() as isize);
-        weight
+        let a = (*self as u32) as f32;
+        let b = (*other as u32) as f32;
+        let weight = a + (b - a) * time;
+        Some(if weight < 150. {
+            FontWeight::Weight100
+        } else if weight < 250. {
+            FontWeight::Weight200
+        } else if weight < 350. {
+            FontWeight::Weight300
+        } else if weight < 450. {
+            FontWeight::Weight400
+        } else if weight < 550. {
+            FontWeight::Weight500
+        } else if weight < 650. {
+            FontWeight::Weight600
+        } else if weight < 750. {
+            FontWeight::Weight700
+        } else if weight < 850. {
+            FontWeight::Weight800
+        } else {
+            FontWeight::Weight900
+        })
     }
 }
 

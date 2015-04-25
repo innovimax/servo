@@ -9,9 +9,7 @@
 #![feature(plugin)]
 #![feature(rustc_private)]
 #![feature(std_misc)]
-#![feature(step_trait)]
 #![feature(str_char)]
-#![feature(unicode)]
 #![feature(unsafe_destructor)]
 
 #![plugin(plugins)]
@@ -30,7 +28,6 @@ extern crate png;
 extern crate profile;
 extern crate script_traits;
 extern crate rustc_serialize;
-extern crate unicode;
 extern crate net_traits;
 #[macro_use]
 extern crate util;
