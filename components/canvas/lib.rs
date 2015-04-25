@@ -4,7 +4,6 @@
 
 #![feature(collections)]
 #![feature(convert)]
-#![feature(core)]
 
 extern crate azure;
 extern crate cssparser;
@@ -12,6 +11,7 @@ extern crate geom;
 extern crate gfx;
 extern crate util;
 extern crate gleam;
+extern crate num;
 extern crate offscreen_gl_context;
 extern crate glutin;
 
