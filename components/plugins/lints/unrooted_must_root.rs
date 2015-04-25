@@ -78,11 +78,11 @@ impl LintPass for UnrootedPass {
     fn check_fn(&mut self, cx: &Context, kind: visit::FnKind, decl: &ast::FnDecl,
                 block: &ast::Block, _span: codemap::Span, id: ast::NodeId) {
         match kind {
-            visit::FkItemFn(i, _, _, _) |
-            visit::FkMethod(i, _) if i.as_str() == "new" || i.as_str() == "new_inherited" => {
+            visit::FkItemFn(i, _, _, _, _) |
+            visit::FkMethod(i, _, _) if i.as_str() == "new" || i.as_str() == "new_inherited" => {
                 return;
             },
-            visit::FkItemFn(_, _, style, _) => match style {
+            visit::FkItemFn(_, _, style, _, _) => match style {
                 ast::Unsafety::Unsafe => return,
                 _ => ()
             },

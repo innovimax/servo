@@ -47,7 +47,7 @@ pub fn expand_jstraceable(cx: &mut ExtCtxt, span: Span, mitem: &MetaItem, item: 
         ],
         associated_types: vec![],
     };
-    trait_def.expand(cx, mitem, item, |a| push(a))
+    trait_def.expand(cx, mitem, item, push)
 }
 
 // Mostly copied from syntax::ext::deriving::hash

@@ -1056,7 +1056,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "stb_image"
 version = "0.1.0"
-source = "git+https://github.com/servo/rust-stb-image#e39cee24dc003019e72acc7f6a293914dc2c7b73"
+source = "git+https://github.com/servo/rust-stb-image#f6c411b381322609a321b7fb5f948b2365973604"
+dependencies = [
+ "libc 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "string_cache"
