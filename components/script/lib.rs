@@ -7,12 +7,9 @@
 #![feature(collections)]
 #![feature(core)]
 #![feature(custom_attribute)]
-#![feature(old_io)]
-#![feature(path)]
 #![feature(plugin)]
 #![feature(rustc_private)]
 #![feature(std_misc)]
-#![feature(unicode)]
 #![feature(unsafe_destructor)]
 
 #![deny(unsafe_code)]
@@ -70,5 +67,5 @@ pub mod script_task;
 mod timers;
 pub mod textinput;
 mod devtools;
-mod ugly_horribly_inefficient_timers;
+mod horribly_inefficient_timers;
 mod webdriver_handlers;

@@ -399,7 +399,7 @@ impl FromJSValConvertible for USVString {
 impl ToJSValConvertible for ByteString {
     fn to_jsval(&self, cx: *mut JSContext) -> JSVal {
         unsafe {
-            let slice = self.as_slice();
+            let slice = self;
             let jsstr = JS_NewStringCopyN(cx, slice.as_ptr() as *const libc::c_char,
                                           slice.len() as libc::size_t);
             if jsstr.is_null() {

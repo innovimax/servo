@@ -545,7 +545,7 @@ impl<'a> NodeHelpers for JSRef<'a, Node> {
             s.push_str("    ");
         }
 
-        s.push_str(&*self.debug_str());
+        s.push_str(&self.debug_str());
         debug!("{:?}", s);
 
         // FIXME: this should have a pure version?

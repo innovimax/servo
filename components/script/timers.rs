@@ -11,7 +11,7 @@ use dom::bindings::utils::Reflectable;
 use dom::window::ScriptHelpers;
 
 use script_task::{ScriptChan, ScriptMsg, TimerSource};
-use ugly_horribly_inefficient_timers;
+use horribly_inefficient_timers;
 
 use util::task::spawn_named;
 use util::str::DOMString;
@@ -155,9 +155,9 @@ impl TimerManager {
         }.to_owned();
         spawn_named(spawn_name, move || {
             let timeout_port = if is_interval == IsInterval::Interval {
-                ugly_horribly_inefficient_timers::periodic(duration_ms)
+                horribly_inefficient_timers::periodic(duration_ms)
             } else {
-                ugly_horribly_inefficient_timers::oneshot(duration_ms)
+                horribly_inefficient_timers::oneshot(duration_ms)
             };
             let control_port = control_port;
 

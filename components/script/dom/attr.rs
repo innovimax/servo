@@ -195,8 +195,7 @@ impl<'a> AttrMethods for JSRef<'a, Attr> {
 
     // https://dom.spec.whatwg.org/#dom-attr-namespaceuri
     fn GetNamespaceURI(self) -> Option<DOMString> {
-        let Namespace(ref atom) = self.namespace;
-        match &**atom {
+        match &*self.namespace.0 {
             "" => None,
             url => Some(url.to_owned()),
         }
@@ -278,9 +277,8 @@ impl<'a> AttrHelpers<'a> for JSRef<'a, Attr> {
     }
 
     fn summarize(self) -> AttrInfo {
-        let Namespace(ref ns) = self.namespace;
         AttrInfo {
-            namespace: (**ns).to_owned(),
+            namespace: (*self.namespace.0).to_owned(),
             name: self.Name(),
             value: self.Value(),
         }
