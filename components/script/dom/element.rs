@@ -64,6 +64,7 @@ use style::properties::{PropertyDeclarationBlock, PropertyDeclaration, parse_sty
 use style::properties::DeclaredValue::SpecifiedValue;
 use style::values::specified::CSSColor;
 use util::namespace;
+use util::smallvec::VecLike;
 use util::str::{DOMString, LengthOrPercentageOrAuto};
 
 use cssparser::Color;
@@ -74,7 +75,6 @@ use html5ever::serialize::TraversalScope::{IncludeNode, ChildrenOnly};
 use html5ever::tree_builder::{NoQuirks, LimitedQuirks, Quirks};
 use selectors::matching::{matches, DeclarationBlock};
 use selectors::parser::parse_author_origin_selector_list_from_str;
-use selectors::smallvec::VecLike;
 use string_cache::{Atom, Namespace, QualName};
 use url::UrlParser;
 
@@ -256,7 +256,7 @@ impl RawLayoutElementHelpers for Element {
         };
 
         if let Some(color) = bgcolor {
-            hints.vec_push(from_declaration(
+            hints.push(from_declaration(
                 PropertyDeclaration::BackgroundColor(SpecifiedValue(
                     CSSColor { parsed: Color::RGBA(color), authored: None }))));
         }

@@ -16,8 +16,8 @@ use properties::PropertyDeclaration;
 use properties::longhands::{self, border_spacing};
 use selector_matching::Stylist;
 
-use selectors::smallvec::VecLike;
 use util::geometry::Au;
+use util::smallvec::VecLike;
 use util::str::LengthOrPercentageOrAuto;
 
 /// Legacy presentational attributes that take a length as defined in HTML5 § 2.4.4.4.
@@ -88,9 +88,9 @@ impl PresentationalHintSynthesis for Stylist {
                                                                    V: VecLike<DeclarationBlock<Vec<PropertyDeclaration>>> {
         let element = node.as_element();
 
-        let length = matching_rules_list.vec_len();
+        let length = matching_rules_list.len();
         element.synthesize_presentational_hints_for_legacy_attributes(matching_rules_list);
-        if matching_rules_list.vec_len() != length {
+        if matching_rules_list.len() != length {
             // Never share style for elements with preshints
             *shareable = false;
         }

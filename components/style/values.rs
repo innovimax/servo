@@ -43,7 +43,7 @@ macro_rules! define_numbered_css_keyword_enum {
     };
     ($name: ident: $( $css: expr => $variant: ident = $value: expr ),+) => {
         #[allow(non_camel_case_types)]
-        #[derive(Clone, Eq, PartialEq, PartialOrd, Ord, FromPrimitive, Copy, RustcEncodable)]
+        #[derive(Clone, Eq, PartialEq, PartialOrd, Ord, Copy, RustcEncodable, Debug)]
         pub enum $name {
             $( $variant = $value ),+
         }
@@ -57,17 +57,9 @@ macro_rules! define_numbered_css_keyword_enum {
             }
         }
 
-        impl ::std::fmt::Debug for $name {
-            #[inline]
-            fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-                use cssparser::ToCss;
-                self.fmt_to_css(f)
-            }
-        }
-
         impl ::cssparser::ToCss for $name {
-            fn to_css<W>(&self, dest: &mut W) -> ::text_writer::Result
-            where W: ::text_writer::TextWriter {
+            fn to_css<W>(&self, dest: &mut W) -> ::std::fmt::Result
+            where W: ::std::fmt::Write {
                 match self {
                     $( &$name::$variant => dest.write_str($css) ),+
                 }

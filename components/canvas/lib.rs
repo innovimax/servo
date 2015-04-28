@@ -4,6 +4,7 @@
 
 #![feature(collections)]
 #![feature(convert)]
+#![feature(rustc_private)]
 
 extern crate azure;
 extern crate cssparser;

@@ -4,7 +4,7 @@
 
 use geometry::Au;
 
-use cssparser::RGBA;
+use cssparser::{self, RGBA, Color};
 
 use libc::c_char;
 use num_lib::ToPrimitive;
@@ -200,11 +200,10 @@ pub fn parse_legacy_color(mut input: &str) -> Result<RGBA,()> {
     }
 
     // Step 5.
-    // XXX ICE
-    //match cssparser::parse_color_keyword(input) {
-    //    Ok(Color::RGBA(rgba)) => return Ok(rgba),
-    //    _ => {}
-    //}
+    match cssparser::parse_color_keyword(input) {
+        Ok(Color::RGBA(rgba)) => return Ok(rgba),
+        _ => {}
+    }
 
     // Step 6.
     if input.len() == 4 {

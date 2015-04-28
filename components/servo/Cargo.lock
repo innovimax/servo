@@ -67,7 +67,6 @@ dependencies = [
  "gfx 0.0.1",
  "gleam 0.0.1 (git+https://github.com/servo/gleam)",
  "glutin 0.0.26 (git+https://github.com/servo/glutin?branch=servo)",
- "msg 0.0.1",
  "num 0.1.24 (registry+https://github.com/rust-lang/crates.io-index)",
  "offscreen_gl_context 0.0.1 (git+https://github.com/ecoal95/rust-offscreen-rendering-context)",
  "util 0.0.1",
@@ -815,6 +814,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "objc"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "malloc_buf 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "offscreen_gl_context"
 version = "0.0.1"
 source = "git+https://github.com/ecoal95/rust-offscreen-rendering-context#9547d416019b15e0e59dc5176f5b1a14e14b44ca"
@@ -823,17 +831,8 @@ dependencies = [
  "geom 0.1.0 (git+https://github.com/servo/rust-geom)",
  "gleam 0.0.1 (git+https://github.com/servo/gleam)",
  "glx 0.0.1 (git+https://github.com/servo/rust-glx)",
- "libc 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "xlib 0.1.0 (git+https://github.com/servo/rust-xlib)",
-]
-
-[[package]]
-name = "objc"
-version = "0.1.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
  "libc 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "malloc_buf 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "xlib 0.1.0 (git+https://github.com/servo/rust-xlib)",
 ]
 
 [[package]]
@@ -1141,11 +1140,6 @@ dependencies = [
 name = "tenacious"
 version = "0.0.1"
 source = "git+https://github.com/Manishearth/rust-tenacious.git#d61782e70005a9f0cdf66f366d4ec88fc563ea1e"
-
-[[package]]
-name = "text_writer"
-version = "0.1.11"
-source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "time"
