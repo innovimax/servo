@@ -21,7 +21,7 @@ use std::sync::Arc;
 use style::computed_values::content::ContentItem;
 use style::computed_values::{display, list_style_type};
 use style::properties::ComputedValues;
-use util::smallvec::{SmallVec, SmallVec8};
+use util::smallvec::SmallVec8;
 
 // Decimal styles per CSS-COUNTER-STYLES § 6.1:
 static DECIMAL: [char; 10] = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];

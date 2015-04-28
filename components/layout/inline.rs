@@ -24,8 +24,6 @@ use gfx::text::text_run::TextRun;
 use std::cmp::max;
 use std::fmt;
 use std::mem;
-use std::num::ToPrimitive;
-use std::ops::{Add, Sub, Mul, Div, Rem, Neg, Shl, Shr, Not, BitOr, BitAnd, BitXor};
 use std::sync::Arc;
 use std::u16;
 use style::computed_values::{display, overflow_x, text_align, text_justify, text_overflow};

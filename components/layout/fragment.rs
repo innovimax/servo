@@ -34,7 +34,6 @@ use std::borrow::ToOwned;
 use std::cmp::{max, min};
 use std::collections::LinkedList;
 use std::fmt;
-use std::num::ToPrimitive;
 use std::str::FromStr;
 use std::sync::mpsc::Sender;
 use std::sync::{Arc, Mutex};
@@ -51,7 +50,6 @@ use url::Url;
 use util::geometry::{self, Au, ZERO_POINT};
 use util::logical_geometry::{LogicalRect, LogicalSize, LogicalMargin, WritingMode};
 use util::range::*;
-use util::smallvec::SmallVec;
 use util::str::is_whitespace;
 use util;
 

@@ -324,7 +324,7 @@ pub struct LowercaseString {
 impl LowercaseString {
     pub fn new(s: &str) -> LowercaseString {
         LowercaseString {
-            inner: s.chars().flat_map(|c| c.to_lowercase()).collect(),
+            inner: s.to_lowercase(),
         }
     }
 }
