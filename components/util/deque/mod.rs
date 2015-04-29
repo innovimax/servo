@@ -333,7 +333,6 @@ impl<T: Send + 'static> Deque<T> {
 }
 
 
-#[unsafe_destructor]
 impl<T> Drop for Deque<T> {
     fn drop(&mut self) {
         let t = self.top.load(SeqCst);
@@ -401,7 +400,6 @@ impl<T> Buffer<T> {
     }
 }
 
-#[unsafe_destructor]
 impl<T> Drop for Buffer<T> {
     fn drop(&mut self) {
         // It is assumed that all buffers are empty on drop.

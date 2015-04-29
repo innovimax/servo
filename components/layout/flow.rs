@@ -887,7 +887,6 @@ impl Encodable for BaseFlow {
     }
 }
 
-#[unsafe_destructor]
 impl Drop for BaseFlow {
     fn drop(&mut self) {
         if self.strong_ref_count.load(Ordering::SeqCst) != 0 &&

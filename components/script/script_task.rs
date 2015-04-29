@@ -341,7 +341,6 @@ impl<'a> ScriptMemoryFailsafe<'a> {
     }
 }
 
-#[unsafe_destructor]
 impl<'a> Drop for ScriptMemoryFailsafe<'a> {
     #[allow(unrooted_must_root)]
     fn drop(&mut self) {
@@ -1089,7 +1088,6 @@ impl ScriptTask {
                 self.neutered = true;
             }
         }
-        #[unsafe_destructor]
         impl<'a> Drop for AutoPageRemover<'a> {
             fn drop(&mut self) {
                 if !self.neutered {
@@ -1449,7 +1447,6 @@ impl<'a> AutoDOMEventMarker<'a> {
     }
 }
 
-#[unsafe_destructor]
 impl<'a> Drop for AutoDOMEventMarker<'a> {
     fn drop(&mut self) {
         let marker = TimelineMarker::new("DOMEvent".to_owned(), TracingMetadata::IntervalEnd);

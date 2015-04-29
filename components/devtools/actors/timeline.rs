@@ -2,11 +2,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-use core::iter::FromIterator;
 use msg::constellation_msg::PipelineId;
 use rustc_serialize::{json, Encoder, Encodable};
 use std::cell::RefCell;
 use std::collections::{HashMap, VecDeque};
+use std::mem;
 use std::net::TcpStream;
 use std::thread::sleep_ms;
 use std::sync::{Arc, Mutex};
@@ -343,7 +343,7 @@ impl Emitter {
         let end_time = PreciseTime::now();
         let reply = MarkersEmitterReply {
             __type__: "markers".to_string(),
-            markers: Vec::from_iter(self.markers.drain()),
+            markers: mem::replace(&mut self.markers, Vec::new()),
             from: self.from.clone(),
             endTime: HighResolutionStamp::new(self.start_stamp, end_time),
         };

@@ -55,7 +55,6 @@ pub struct FontHandle {
     pub handle: FontContextHandle
 }
 
-#[unsafe_destructor]
 impl Drop for FontHandle {
     fn drop(&mut self) {
         assert!(!self.face.is_null());

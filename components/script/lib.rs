@@ -10,7 +10,6 @@
 #![feature(plugin)]
 #![feature(rustc_private)]
 #![feature(std_misc)]
-#![feature(unsafe_destructor)]
 
 #![deny(unsafe_code)]
 #![allow(non_snake_case)]

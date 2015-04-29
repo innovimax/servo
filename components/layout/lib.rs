@@ -11,7 +11,6 @@
 #![feature(std_misc)]
 #![feature(str_char)]
 #![feature(thread_local)]
-#![feature(unsafe_destructor)]
 #![feature(unsafe_no_drop_flag)]
 
 #![deny(unsafe_code)]

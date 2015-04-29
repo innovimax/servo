@@ -14,7 +14,6 @@
 #![feature(step_by)]
 #![feature(step_trait)]
 #![feature(std_misc)]
-#![feature(unsafe_destructor)]
 #![feature(zero_one)]
 
 #![plugin(string_cache_plugin)]

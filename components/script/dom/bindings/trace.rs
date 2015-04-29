@@ -443,7 +443,6 @@ impl<T: VecRootableType> RootedVec<T> {
     }
 }
 
-#[unsafe_destructor]
 impl<T: VecRootableType> Drop for RootedVec<T> {
     fn drop(&mut self) {
         RootedCollectionSet::remove(self);

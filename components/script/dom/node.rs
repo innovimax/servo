@@ -179,7 +179,6 @@ impl NodeFlags {
     }
 }
 
-#[unsafe_destructor]
 impl Drop for Node {
     #[allow(unsafe_code)]
     fn drop(&mut self) {
