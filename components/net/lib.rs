@@ -6,7 +6,6 @@
 #![feature(box_syntax)]
 #![feature(collections)]
 #![feature(core)]
-#![cfg_attr(test, feature(net))]
 #![feature(path_ext)]
 #![feature(plugin)]
 #![feature(rustc_private)]
