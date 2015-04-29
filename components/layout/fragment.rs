@@ -451,8 +451,8 @@ impl ReplacedImageFragmentInfo {
                 if intrinsic_height == Au(0) {
                     intrinsic_width
                 } else {
-                    let ratio = intrinsic_width.to_f32().unwrap() /
-                                intrinsic_height.to_f32().unwrap();
+                    let ratio = intrinsic_width.to_frac32_px() /
+                                intrinsic_height.to_frac32_px();
 
                     let specified_height = ReplacedImageFragmentInfo::style_length(
                         style_block_size,
@@ -466,7 +466,7 @@ impl ReplacedImageFragmentInfo {
                                                       style_min_block_size,
                                                       style_max_block_size,
                                                       Au(0));
-                    Au((specified_height.to_f32().unwrap() * ratio) as i32)
+                    Au::from_frac32_px(specified_height.to_frac32_px() * ratio)
                 }
             },
             MaybeAuto::Specified(w) => w,
@@ -503,8 +503,8 @@ impl ReplacedImageFragmentInfo {
             MaybeAuto::Auto => {
                 let intrinsic_width = fragment_inline_size;
                 let intrinsic_height = fragment_block_size;
-                let scale = intrinsic_width.to_f32().unwrap() / inline_size.to_f32().unwrap();
-                Au((intrinsic_height.to_f32().unwrap() / scale) as i32)
+                let scale = intrinsic_width.to_frac32_px() / inline_size.to_frac32_px();
+                Au::from_frac32_px(intrinsic_height.to_frac32_px() / scale)
             },
             MaybeAuto::Specified(h) => {
                 h

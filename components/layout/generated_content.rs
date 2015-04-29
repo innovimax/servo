@@ -530,7 +530,7 @@ fn push_alphabetic_representation(mut value: i32, system: &[char], accumulator: 
         value = ((value as usize) / system.len()) as i32;
     }
 
-    accumulator.extend(string.iter().rev())
+    accumulator.extend(string.iter().cloned().rev())
 }
 
 /// Pushes the string that represents the value rendered using the given *numeric system* onto the
@@ -552,6 +552,6 @@ fn push_numeric_representation(mut value: i32, system: &[char], accumulator: &mu
     }
 
     // Step 3.
-    accumulator.extend(string.iter().rev())
+    accumulator.extend(string.iter().cloned().rev())
 }
 

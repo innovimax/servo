@@ -35,8 +35,8 @@ use util::range::{Range, RangeIndex};
 use util;
 
 // From gfxFontConstants.h in Firefox
-static FONT_SUBSCRIPT_OFFSET_RATIO: f64 = 0.20;
-static FONT_SUPERSCRIPT_OFFSET_RATIO: f64 = 0.34;
+static FONT_SUBSCRIPT_OFFSET_RATIO: f32 = 0.20;
+static FONT_SUPERSCRIPT_OFFSET_RATIO: f32 = 0.34;
 
 /// `Line`s are represented as offsets into the child list, rather than
 /// as an object that "owns" fragments. Choosing a different set of line
@@ -1006,7 +1006,7 @@ impl InlineFlow {
                                     line_distance_from_flow_block_start: Au,
                                     baseline_distance_from_block_start: Au,
                                     largest_depth_below_baseline: Au) {
-        for fragment_index in line.each_index() {
+        for fragment_index in line.range.each_index() {
             // If any of the inline styles say `top` or `bottom`, adjust the vertical align
             // appropriately.
             //
@@ -1284,7 +1284,7 @@ impl Flow for InlineFlow {
             let (mut largest_block_size_for_top_fragments,
                  mut largest_block_size_for_bottom_fragments) = (Au(0), Au(0));
 
-            for fragment_index in line.each_index() {
+            for fragment_index in line.range.each_index() {
                 let fragment = &mut self.fragments.fragments[fragment_index.to_usize()];
 
                 let InlineMetrics {

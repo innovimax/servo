@@ -586,6 +586,7 @@ impl FlowFlags {
             1 => text_align::T::right,
             2 => text_align::T::center,
             3 => text_align::T::justify,
+            _ => unreachable!()
         }
     }
 
