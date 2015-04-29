@@ -6,12 +6,11 @@
 #![feature(box_syntax)]
 #![feature(collections)]
 #![feature(core)]
-#![feature(io)]
 #![feature(plugin)]
 #![feature(rustc_private)]
 #![feature(std_misc)]
+#![feature(str_char)]
 #![feature(thread_local)]
-#![feature(unicode)]
 #![feature(unsafe_destructor)]
 #![feature(unsafe_no_drop_flag)]
 
