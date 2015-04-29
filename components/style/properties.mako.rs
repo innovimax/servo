@@ -2184,7 +2184,7 @@ pub mod longhands {
     <%self:longhand name="column-width" experimental="True">
         use values::computed::{ToComputedValue, Context};
         use cssparser::ToCss;
-        use text_writer::{self, TextWriter};
+        use std::fmt;
 
         #[derive(Clone, Copy, PartialEq)]
         pub enum SpecifiedValue {
@@ -2193,7 +2193,7 @@ pub mod longhands {
         }
 
         impl ToCss for SpecifiedValue {
-            fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+            fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
                 match *self {
                     SpecifiedValue::Auto => dest.write_str("auto"),
                     SpecifiedValue::Specified(l) => l.to_css(dest),
@@ -2235,7 +2235,7 @@ pub mod longhands {
     <%self:longhand name="column-count" experimental="True">
         use values::computed::{ToComputedValue, Context};
         use cssparser::ToCss;
-        use text_writer::{self, TextWriter};
+        use std::fmt;
 
         #[derive(Clone, Copy, PartialEq)]
         pub enum SpecifiedValue {
@@ -2244,7 +2244,7 @@ pub mod longhands {
         }
 
         impl ToCss for SpecifiedValue {
-            fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+            fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
                 match *self {
                     SpecifiedValue::Auto => dest.write_str("auto"),
                     SpecifiedValue::Specified(count) => write!(dest, "{}", count),
@@ -2277,10 +2277,9 @@ pub mod longhands {
             if input.try(|input| input.expect_ident_matching("auto")).is_ok() {
                 Ok(SpecifiedValue::Auto)
             } else {
-                use std::u32;
                 let count = try!(input.expect_integer());
                 // Zero is invalid
-                if count <= 0 || count > (u32::MAX as i64) {
+                if count <= 0 {
                     return Err(())
                 }
                 Ok(SpecifiedValue::Specified(count as u32))
@@ -2291,7 +2290,7 @@ pub mod longhands {
     <%self:longhand name="column-gap" experimental="True">
         use values::computed::{ToComputedValue, Context};
         use cssparser::ToCss;
-        use text_writer::{self, TextWriter};
+        use std::fmt;
 
         #[derive(Clone, Copy, PartialEq)]
         pub enum SpecifiedValue {
@@ -2300,7 +2299,7 @@ pub mod longhands {
         }
 
         impl ToCss for SpecifiedValue {
-            fn to_css<W>(&self, dest: &mut W) -> text_writer::Result where W: TextWriter {
+            fn to_css<W>(&self, dest: &mut W) -> fmt::Result where W: fmt::Write {
                 match *self {
                     SpecifiedValue::Normal => dest.write_str("normal"),
                     SpecifiedValue::Specified(l) => l.to_css(dest),
