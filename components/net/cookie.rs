@@ -9,10 +9,9 @@ use net_traits::CookieSource;
 use pub_domains::PUB_DOMAINS;
 
 use cookie_rs;
-use time::{Tm, now, at, Timespec, Duration};
+use time::{Tm, now, at, Duration};
 use url::Url;
 use std::borrow::ToOwned;
-use std::i64;
 use std::net::{Ipv4Addr, Ipv6Addr};
 use std::str::FromStr;
 
@@ -26,7 +25,7 @@ pub struct Cookie {
     pub persistent: bool,
     pub creation_time: Tm,
     pub last_access: Tm,
-    pub expiry_time: Tm,
+    pub expiry_time: Option<Tm>,
 }
 
 impl Cookie {
@@ -35,9 +34,11 @@ impl Cookie {
                        -> Option<Cookie> {
         // Step 3
         let (persistent, expiry_time) = match (&cookie.max_age, &cookie.expires) {
-            (&Some(max_age), _) => (true, at(now().to_timespec() + Duration::seconds(max_age as i64))),
-            (_, &Some(expires)) => (true, expires),
-            _ => (false, at(Timespec::new(i64::MAX, 0)))
+            (&Some(max_age), _) => {
+                (true, Some(at(now().to_timespec() + Duration::seconds(max_age as i64))))
+            }
+            (_, &Some(expires)) => (true, Some(expires)),
+            _ => (false, None)
         };
 
         let url_host = request.host().map(|host| host.serialize()).unwrap_or("".to_owned());
