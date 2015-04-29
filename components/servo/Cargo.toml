@@ -52,9 +52,6 @@ headless = ["glutin_app/headless"]
 # rpath = false
 # lto = false
 
-[profile.dev]
-debug = false
-
 [dependencies.compositing]
 path = "../compositing"
 
